@@ -29,3 +29,6 @@ Route::get('/test', function() {
     $product->save();
     echo "Successful";
 });
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
