@@ -8,4 +8,4 @@ php artisan key:generate,
 php artisan config:cache
 để tạo key
 + sau đó chạy php artisan serve,vào localhost:8000 để xem chạy ổn chưa
-+ lưu ý mình chỉ làm trong thư mục web,toàn bộ cấu trúc project laravel 5.8 nằm trong 
++ lưu ý mình chỉ làm trong thư mục web,toàn bộ cấu trúc project laravel 5.8 nằm trong đó
