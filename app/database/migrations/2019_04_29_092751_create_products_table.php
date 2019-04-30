@@ -23,9 +23,11 @@ class CreateProductsTable extends Migration
             $table->string('img_list', 180)->nullable();
             $table->text('description')->nullable();
             $table->integer('view')->unsigned()->nullable()->default(0);
-            $table->unsignedBigInteger('catalog_id')->nullable()->unique();
+            $table->unsignedBigInteger('catalog_id')->nullable();
+            $table->unsignedBigInteger('trademark_id')->nullable();
             $table->timestamps();
             $table->foreign('catalog_id')->references('id')->on('catalogs')->onDelete('set null');
+            $table->foreign('trademark_id')->references('id')->on('trademarks')->onDelete('set null');
         });
     }
 
