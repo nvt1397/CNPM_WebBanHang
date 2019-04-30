@@ -5,7 +5,7 @@
 	<!-- Mobile Specific Meta -->
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<!-- Favicon-->
-	<link rel="shortcut icon" href="img/fav.png">
+	<link rel="shortcut icon" href="{{ asset("img/fav.png") }}">
 	<!-- Author Meta -->
 	<meta name="author" content="CodePixar">
 	<!-- Meta Description -->
@@ -79,6 +79,22 @@
 								</ul>
 							</li>
 							<li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+							@guest
+							<li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Login</a></li>
+							<li class="nav-item"><a class="nav-link" href="{{ route('register') }}">Register</a></li>
+							@else 
+							<li class="nav-item submenu dropdown">
+								<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+								aria-expanded="false">{{Auth::user()->name}}</a>
+								<ul class="dropdown-menu">
+									<li class="nav-item"><a class="nav-link" href="{{route('quicklogout')}}" onclick="event.preventDefault();
+										document.getElementById('logout-form').submit();">Logout</a></li>
+									<form id="logout-form" action="{{ route('quicklogout') }}" method="POST" style="display: none;">
+                                        @csrf
+                                    </form>
+								</ul>
+							</li>
+							@endguest
 						</ul>
 						<ul class="nav navbar-nav navbar-right">
 							<li class="nav-item"><a href="#" class="cart"><span class="ti-bag"></span></a></li>
@@ -126,27 +142,25 @@
 				<div class="col-lg-6">
 					<div class="s_Product_carousel">
 						<div class="single-prd-item">
-							<img class="img-fluid" src="img/category/s-p1.jpg" alt="">
+							<img class="img-fluid" src="{{asset($product->img_link)}}" alt="">
 						</div>
 						<div class="single-prd-item">
-							<img class="img-fluid" src="img/category/s-p1.jpg" alt="">
+							<img class="img-fluid" src="{{asset($product->img_link)}}" alt="">
 						</div>
 						<div class="single-prd-item">
-							<img class="img-fluid" src="img/category/s-p1.jpg" alt="">
+							<img class="img-fluid" src="{{asset($product->img_link)}}" alt="">
 						</div>
 					</div>
 				</div>
 				<div class="col-lg-5 offset-lg-1">
 					<div class="s_product_text">
-						<h3>Faded SkyBlu Denim Jeans</h3>
-						<h2>$149.99</h2>
+						<h3 style="font-family: Arial, Helvetica, sans-serif;">{{$product->name}}</h3>
+						<h2>{{$product->price}}</h2>
 						<ul class="list">
 							<li><a class="active" href="#"><span>Category</span> : Household</a></li>
 							<li><a href="#"><span>Availibility</span> : In Stock</a></li>
 						</ul>
-						<p>Mill Oil is an innovative oil filled radiator with the most modern technology. If you are looking for
-							something that can make your interior look awesome, and at the same time give you the pleasant warm feeling
-							during the winter.</p>
+						<p>{{$product->description}}</p>
 						<div class="product_count">
 							<label for="qty">Quantity:</label>
 							<input type="text" name="qty" id="sst" maxlength="12" value="1" title="Quantity:" class="input-text qty">
