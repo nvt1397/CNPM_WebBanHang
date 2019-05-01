@@ -34,3 +34,7 @@ Route::post('/quicklogout', function() {
     Auth::logout();
     return redirect()->back();
 }) -> name('quicklogout');
+
+Route::get('/test', function() {
+    return view('layouts.karma');
+});
