@@ -27,6 +27,7 @@ Route::get('/product/id/{product_id}', function($product_id) {
     }
     return view('product', [
         'product' => $product,
+        'comments' => $product->comments
     ]);
 });
 

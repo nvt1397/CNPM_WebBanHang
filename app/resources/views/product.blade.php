@@ -105,21 +105,7 @@
 			</ul>
 			<div class="tab-content" id="myTabContent">
 				<div class="tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab">
-					<p>Beryl Cook is one of Britain’s most talented and amusing artists .Beryl’s pictures feature women of all shapes
-						and sizes enjoying themselves .Born between the two world wars, Beryl Cook eventually left Kendrick School in
-						Reading at the age of 15, where she went to secretarial school and then into an insurance office. After moving to
-						London and then Hampton, she eventually married her next door neighbour from Reading, John Cook. He was an
-						officer in the Merchant Navy and after he left the sea in 1956, they bought a pub for a year before John took a
-						job in Southern Rhodesia with a motor company. Beryl bought their young son a box of watercolours, and when
-						showing him how to use it, she decided that she herself quite enjoyed painting. John subsequently bought her a
-						child’s painting set for her birthday and it was with this that she produced her first significant work, a
-						half-length portrait of a dark-skinned lady with a vacant expression and large drooping breasts. It was aptly
-						named ‘Hangover’ by Beryl’s husband and</p>
-					<p>It is often frustrating to attempt to plan meals that are designed for one. Despite this fact, we are seeing
-						more and more recipe books and Internet websites that are dedicated to the act of cooking for one. Divorce and
-						the death of spouses or grown children leaving for college are all reasons that someone accustomed to cooking for
-						more than one would suddenly need to learn how to adjust all the cooking practices utilized before into a
-						streamlined plan of cooking that is more efficient for one person creating less</p>
+					{{$product->description}}
 				</div>
 				<div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
 					<div class="table-responsive">
@@ -195,84 +181,98 @@
 				</div>
 				<div class="tab-pane fade show active" id="contact" role="tabpanel" aria-labelledby="contact-tab">
 					<div class="row">
-						<div class="col-lg-6">
+						<div class="col">
 							<div class="comment_list">
-								<div class="review_item">
-									<div class="media">
-										<div class="d-flex">
-											<img src="img/product/review-1.png" alt="">
+								@foreach ($comments as $comment)
+									<div class="review_item">
+										<div class="media">
+											<div class="d-flex">
+												<img src="img/product/review-1.png" alt="">
+											</div>
+											<div class="media-body">
+												<h4>{{$comment->user->name}}</h4>
+												<h5>{{date('d/m/Y - H:i:s', $comment->created_at->timestamp)}}</h5>
+												<a class="reply_btn" href="#" number_comment="{{$comment->id}}" stt="0">Trả lời</a>
+											</div>
 										</div>
-										<div class="media-body">
-											<h4>Blake Ruiz</h4>
-											<h5>12th Feb, 2018 at 05:56 pm</h5>
-											<a class="reply_btn" href="#">Reply</a>
-										</div>
+										<p>{{$comment->content}}</p>
 									</div>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-										dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-										commodo</p>
-								</div>
-								<div class="review_item reply">
-									<div class="media">
-										<div class="d-flex">
-											<img src="img/product/review-2.png" alt="">
+									<div class="review_box mt-4 rep_box" id="{{'rep_box'.($comment->id)}}">
+											<form class="row contact_form" action="contact_process.php" method="post" id="contactForm" novalidate="novalidate">
+												@guest
+												<div class="col-md-12">
+													<div class="form-group">
+														<input type="text" class="form-control" id="name" name="name" placeholder="Họ và tên">
+													</div>
+												</div>
+												<div class="col-md-12">
+													<div class="form-group">
+														<input type="email" class="form-control" id="email" name="email" placeholder="Địa chỉ email">
+													</div>
+												</div>
+												<div class="col-md-12">
+													<div class="form-group">
+														<input type="text" class="form-control" id="number" name="number" placeholder="Số điện thoại">
+													</div>
+												</div>
+												@endguest
+												<div class="col-md-12">
+													<div class="form-group">
+														<textarea class="form-control" name="message" id="message" rows="1" placeholder="Bình luận"></textarea>
+													</div>
+												</div>
+												<div class="col-md-12 text-right">
+													<button type="submit" value="submit" class="btn primary-btn">Gửi</button>
+												</div>
+											</form>
 										</div>
-										<div class="media-body">
-											<h4>Blake Ruiz</h4>
-											<h5>12th Feb, 2018 at 05:56 pm</h5>
-											<a class="reply_btn" href="#">Reply</a>
+									@foreach ($comment->repComment as $rep)
+										<div class="review_item reply">
+											<div class="media">
+												<div class="d-flex">
+													<img src="img/product/review-2.png" alt="">
+												</div>
+												<div class="media-body">
+													<h4>{{$rep->user->name}}</h4>
+													<h5>{{date('d/m/Y - H:i:s', $rep->created_at->timestamp)}}</h5>
+												</div>
+											</div>
+											<p>{{$rep->content}}</p>
 										</div>
-									</div>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-										dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-										commodo</p>
-								</div>
-								<div class="review_item">
-									<div class="media">
-										<div class="d-flex">
-											<img src="img/product/review-3.png" alt="">
-										</div>
-										<div class="media-body">
-											<h4>Blake Ruiz</h4>
-											<h5>12th Feb, 2018 at 05:56 pm</h5>
-											<a class="reply_btn" href="#">Reply</a>
-										</div>
-									</div>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-										dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-										commodo</p>
-								</div>
+									@endforeach
+
+								@endforeach
 							</div>
-						</div>
-						<div class="col-lg-6">
-							<div class="review_box">
-								<h4>Gửi bình luận</h4>
-								<form class="row contact_form" action="contact_process.php" method="post" id="contactForm" novalidate="novalidate">
-									<div class="col-md-12">
-										<div class="form-group">
-											<input type="text" class="form-control" id="name" name="name" placeholder="Họ và tên">
+								<div class="review_box mt-4">
+									<h4>Gửi bình luận</h4>
+									<form class="row contact_form" action="contact_process.php" method="post" id="contactForm" novalidate="novalidate">
+										@guest
+										<div class="col-md-12">
+											<div class="form-group">
+												<input type="text" class="form-control" id="name" name="name" placeholder="Họ và tên">
+											</div>
 										</div>
-									</div>
-									<div class="col-md-12">
-										<div class="form-group">
-											<input type="email" class="form-control" id="email" name="email" placeholder="Địa chỉ email">
+										<div class="col-md-12">
+											<div class="form-group">
+												<input type="email" class="form-control" id="email" name="email" placeholder="Địa chỉ email">
+											</div>
 										</div>
-									</div>
-									<div class="col-md-12">
-										<div class="form-group">
-											<input type="text" class="form-control" id="number" name="number" placeholder="Số điện thoại">
+										<div class="col-md-12">
+											<div class="form-group">
+												<input type="text" class="form-control" id="number" name="number" placeholder="Số điện thoại">
+											</div>
 										</div>
-									</div>
-									<div class="col-md-12">
-										<div class="form-group">
-											<textarea class="form-control" name="message" id="message" rows="1" placeholder="Bình luận"></textarea>
+										@endguest
+										<div class="col-md-12">
+											<div class="form-group">
+												<textarea class="form-control" name="message" id="message" rows="1" placeholder="Bình luận"></textarea>
+											</div>
 										</div>
-									</div>
-									<div class="col-md-12 text-right">
-										<button type="submit" value="submit" class="btn primary-btn">Gửi</button>
-									</div>
-								</form>
-							</div>
+										<div class="col-md-12 text-right">
+											<button type="submit" value="submit" class="btn primary-btn">Gửi</button>
+										</div>
+									</form>
+								</div>
 						</div>
 					</div>
 				</div>
@@ -561,4 +561,20 @@
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE"></script>
 	<script src={{ asset("js/gmaps.min.js") }}></script>
 	<script src={{ asset("js/main.js") }}></script>
+	<script>
+		$(".rep_box").hide();
+		$(".reply_btn").click(function(event) {
+			event.preventDefault();
+			let number = $(this).attr("number_comment");
+			let commentId = "rep_box" + number;
+			$("#" + commentId).toggle();
+			if ($(this).attr("stt") === "0") {
+				$(this).text("Đóng");
+				$(this).attr("stt", "1");
+			} else {
+				$(this).text("Trả lời");
+				$(this).attr("stt", "0");
+			}
+		});
+	</script>
 @endsection
