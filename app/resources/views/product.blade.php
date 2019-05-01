@@ -188,36 +188,20 @@
 									<div class="review_item">
 										<div class="media">
 											<div class="d-flex">
-												<img src="img/product/review-1.png" alt="">
+												<img src="{{asset($comment->user->avatar_link)}}" style="width:40px;height:40px" alt="">
 											</div>
 											<div class="media-body">
 												<h4>{{$comment->user->name}}</h4>
 												<h5>{{date('d/m/Y - H:i:s', $comment->created_at->timestamp)}}</h5>
-												<a class="reply_btn" href="#" number_comment="{{$comment->id}}" stt="0">Trả lời</a>
+												@auth<a class="reply_btn" href="#" number_comment="{{$comment->id}}" stt="0">Trả lời</a>@endauth
 											</div>
 										</div>
 										<p>{{$comment->content}}</p>
 									</div>
+									@auth
 									<div class="review_box mt-4 rep_box" id="{{'rep_box'.($comment->id)}}">
 											<form class="row contact_form" action="contact_process.php" method="post" id="contactForm" novalidate="novalidate">
 												@csrf
-												@guest
-												<div class="col-md-12">
-													<div class="form-group">
-														<input type="text" class="form-control" id="name" name="name" placeholder="Họ và tên">
-													</div>
-												</div>
-												<div class="col-md-12">
-													<div class="form-group">
-														<input type="email" class="form-control" name="email" placeholder="Địa chỉ email">
-													</div>
-												</div>
-												<div class="col-md-12">
-													<div class="form-group">
-														<input type="text" class="form-control" name="number" placeholder="Số điện thoại">
-													</div>
-												</div>
-												@endguest
 												<div class="col-md-12">
 													<div class="form-group">
 														<textarea class="form-control" name="message" rows="1" placeholder="Bình luận"></textarea>
@@ -228,11 +212,12 @@
 												</div>
 											</form>
 										</div>
+									@endauth
 									@foreach ($comment->repComment as $rep)
 										<div class="review_item reply">
 											<div class="media">
 												<div class="d-flex">
-													<img src="img/product/review-2.png" alt="">
+													<img src="{{asset($rep->user->avatar_link)}}" style="width:40px;height:40px" alt="">
 												</div>
 												<div class="media-body">
 													<h4>{{$rep->user->name}}</h4>
@@ -245,27 +230,11 @@
 
 								@endforeach
 							</div>
+								@auth
 								<div class="review_box mt-4" id="comment_box">
 									<h4>Gửi bình luận</h4>
 								<form class="row contact_form" method="get" id="comment_form" novalidate="novalidate">
 										@csrf
-										@guest
-										<div class="col-md-12">
-											<div class="form-group">
-												<input type="text" class="form-control" name="name" placeholder="Họ và tên">
-											</div>
-										</div>
-										<div class="col-md-12">
-											<div class="form-group">
-												<input type="email" class="form-control" name="email" placeholder="Địa chỉ email">
-											</div>
-										</div>
-										<div class="col-md-12">
-											<div class="form-group">
-												<input type="text" class="form-control" name="number" placeholder="Số điện thoại">
-											</div>
-										</div>
-										@endguest
 										<div class="col-md-12">
 											<div class="form-group">
 												<textarea class="form-control" name="message" rows="1" placeholder="Bình luận"></textarea>
@@ -276,6 +245,7 @@
 										</div>
 									</form>
 								</div>
+								@endauth
 						</div>
 					</div>
 				</div>
@@ -565,10 +535,8 @@
 	<script src={{ asset("js/gmaps.min.js") }}></script>
 	<script src={{ asset("js/main.js") }}></script>
 	<script>
-		$(document).ready(function(){
-			$(".rep_box").hide();
-			$(".reply_btn").click(function(event) {
-				event.preventDefault();
+		function replyBtnClick(event) {
+			event.preventDefault();
 				let number = $(this).attr("number_comment");
 				let commentId = "rep_box" + number;
 				$("#" + commentId).toggle();
@@ -579,7 +547,10 @@
 					$(this).text("Trả lời");
 					$(this).attr("stt", "0");
 				}
-			});
+		}
+		$(document).ready(function(){
+			$(".rep_box").hide();
+			$(".reply_btn").click(replyBtnClick);
 		});
 	</script>
 	@auth
@@ -595,7 +566,7 @@
 					let formData = $("#comment_form").serializeArray();
 					let _token = formData[0]["value"];
 					let msg = formData[1]["value"];
-					
+					document.getElementById('comment_form').reset();
 					$.ajax({
 						url: "{{ route('comment') }}",
 						type: "POST",
@@ -614,7 +585,7 @@
 								`<div class="review_item">
 									<div class="media">
 										<div class="d-flex">
-											<img src="img/product/review-1.png" alt="">
+											<img src="{{asset(Auth::user()->avatar_link)}}" style="width:40px;height:40px" alt="">
 										</div>
 										<div class="media-body">
 											<h4>{{Auth::user()->name}}</h4>
@@ -623,11 +594,26 @@
 										</div>
 									</div>
 									<p>${data.content}</p>
-								</div>`
+								</div>
+								<div class="review_box mt-4 rep_box" id="${"rep_box"+data.id}">
+											<form class="row contact_form" action="contact_process.php" method="post" id="contactForm" novalidate="novalidate">
+												@csrf
+												<div class="col-md-12">
+													<div class="form-group">
+														<textarea class="form-control" name="message" rows="1" placeholder="Bình luận"></textarea>
+													</div>
+												</div>
+												<div class="col-md-12 text-right">
+													<button type="submit" value="submit" class="btn primary-btn">Gửi</button>
+												</div>
+											</form>
+										</div>`
 							);
+							$("#rep_box"+data.id).hide();
+							$(`.reply_btn[number_comment="${data.id}"`).click(replyBtnClick);
 						},
 						error: function(err) {
-							alert(err);
+							alert("Vui lòng nhập nội dung");
 						}
 					});
 				});
