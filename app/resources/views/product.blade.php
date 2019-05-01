@@ -5,6 +5,7 @@
 @endsection
 
 @section('stylesheet')
+	<meta name="csrf_token" content="{{ csrf_token() }}" />
 	<link rel="stylesheet" href={{ asset("css/linearicons.css") }}>
 	<link rel="stylesheet" href={{ asset("css/font-awesome.min.css") }}>
 	<link rel="stylesheet" href={{ asset("css/themify-icons.css") }}>
@@ -182,7 +183,7 @@
 				<div class="tab-pane fade show active" id="contact" role="tabpanel" aria-labelledby="contact-tab">
 					<div class="row">
 						<div class="col">
-							<div class="comment_list">
+							<div class="comment_list" id="comment_list">
 								@foreach ($comments as $comment)
 									<div class="review_item">
 										<div class="media">
@@ -199,6 +200,7 @@
 									</div>
 									<div class="review_box mt-4 rep_box" id="{{'rep_box'.($comment->id)}}">
 											<form class="row contact_form" action="contact_process.php" method="post" id="contactForm" novalidate="novalidate">
+												@csrf
 												@guest
 												<div class="col-md-12">
 													<div class="form-group">
@@ -207,18 +209,18 @@
 												</div>
 												<div class="col-md-12">
 													<div class="form-group">
-														<input type="email" class="form-control" id="email" name="email" placeholder="Địa chỉ email">
+														<input type="email" class="form-control" name="email" placeholder="Địa chỉ email">
 													</div>
 												</div>
 												<div class="col-md-12">
 													<div class="form-group">
-														<input type="text" class="form-control" id="number" name="number" placeholder="Số điện thoại">
+														<input type="text" class="form-control" name="number" placeholder="Số điện thoại">
 													</div>
 												</div>
 												@endguest
 												<div class="col-md-12">
 													<div class="form-group">
-														<textarea class="form-control" name="message" id="message" rows="1" placeholder="Bình luận"></textarea>
+														<textarea class="form-control" name="message" rows="1" placeholder="Bình luận"></textarea>
 													</div>
 												</div>
 												<div class="col-md-12 text-right">
@@ -243,33 +245,34 @@
 
 								@endforeach
 							</div>
-								<div class="review_box mt-4">
+								<div class="review_box mt-4" id="comment_box">
 									<h4>Gửi bình luận</h4>
-									<form class="row contact_form" action="contact_process.php" method="post" id="contactForm" novalidate="novalidate">
+								<form class="row contact_form" method="get" id="comment_form" novalidate="novalidate">
+										@csrf
 										@guest
 										<div class="col-md-12">
 											<div class="form-group">
-												<input type="text" class="form-control" id="name" name="name" placeholder="Họ và tên">
+												<input type="text" class="form-control" name="name" placeholder="Họ và tên">
 											</div>
 										</div>
 										<div class="col-md-12">
 											<div class="form-group">
-												<input type="email" class="form-control" id="email" name="email" placeholder="Địa chỉ email">
+												<input type="email" class="form-control" name="email" placeholder="Địa chỉ email">
 											</div>
 										</div>
 										<div class="col-md-12">
 											<div class="form-group">
-												<input type="text" class="form-control" id="number" name="number" placeholder="Số điện thoại">
+												<input type="text" class="form-control" name="number" placeholder="Số điện thoại">
 											</div>
 										</div>
 										@endguest
 										<div class="col-md-12">
 											<div class="form-group">
-												<textarea class="form-control" name="message" id="message" rows="1" placeholder="Bình luận"></textarea>
+												<textarea class="form-control" name="message" rows="1" placeholder="Bình luận"></textarea>
 											</div>
 										</div>
 										<div class="col-md-12 text-right">
-											<button type="submit" value="submit" class="btn primary-btn">Gửi</button>
+											<button type="button" id="comment_btn" value="submit" class="btn primary-btn">Gửi</button>
 										</div>
 									</form>
 								</div>
@@ -377,17 +380,17 @@
 								<form class="row contact_form" action="contact_process.php" method="post" id="contactForm" novalidate="novalidate">
 									<div class="col-md-12">
 										<div class="form-group">
-											<input type="text" class="form-control" id="name" name="name" placeholder="Your Full name" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Your Full name'">
+											<input type="text" class="form-control" name="name" placeholder="Your Full name" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Your Full name'">
 										</div>
 									</div>
 									<div class="col-md-12">
 										<div class="form-group">
-											<input type="email" class="form-control" id="email" name="email" placeholder="Email Address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address'">
+											<input type="email" class="form-control" name="email" placeholder="Email Address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address'">
 										</div>
 									</div>
 									<div class="col-md-12">
 										<div class="form-group">
-											<input type="text" class="form-control" id="number" name="number" placeholder="Phone Number" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number'">
+											<input type="text" class="form-control" name="number" placeholder="Phone Number" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number'">
 										</div>
 									</div>
 									<div class="col-md-12">
@@ -562,19 +565,73 @@
 	<script src={{ asset("js/gmaps.min.js") }}></script>
 	<script src={{ asset("js/main.js") }}></script>
 	<script>
-		$(".rep_box").hide();
-		$(".reply_btn").click(function(event) {
-			event.preventDefault();
-			let number = $(this).attr("number_comment");
-			let commentId = "rep_box" + number;
-			$("#" + commentId).toggle();
-			if ($(this).attr("stt") === "0") {
-				$(this).text("Đóng");
-				$(this).attr("stt", "1");
-			} else {
-				$(this).text("Trả lời");
-				$(this).attr("stt", "0");
-			}
+		$(document).ready(function(){
+			$(".rep_box").hide();
+			$(".reply_btn").click(function(event) {
+				event.preventDefault();
+				let number = $(this).attr("number_comment");
+				let commentId = "rep_box" + number;
+				$("#" + commentId).toggle();
+				if ($(this).attr("stt") === "0") {
+					$(this).text("Đóng");
+					$(this).attr("stt", "1");
+				} else {
+					$(this).text("Trả lời");
+					$(this).attr("stt", "0");
+				}
+			});
 		});
 	</script>
+	@auth
+		<script>
+			$(document).ready(function(){
+				$.ajaxSetup({
+					headers: {
+						'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+					}
+				});
+
+				$("#comment_btn").click(function() {
+					let formData = $("#comment_form").serializeArray();
+					let _token = formData[0]["value"];
+					let msg = formData[1]["value"];
+					
+					$.ajax({
+						url: "{{ route('comment') }}",
+						type: "POST",
+						beforeSend: function (xhr) {
+							var token = $('meta[name="csrf_token"]').attr('content');
+							if (token) {
+								return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+							}
+						},
+						data: {
+							message: msg, 
+							product_id: {{ $product->id }}
+						},
+						success: function(data) {
+							$("#comment_list").append(
+								`<div class="review_item">
+									<div class="media">
+										<div class="d-flex">
+											<img src="img/product/review-1.png" alt="">
+										</div>
+										<div class="media-body">
+											<h4>{{Auth::user()->name}}</h4>
+											<h5>${data.created_at}</h5>
+											<a class="reply_btn" href="#" number_comment="${data.id}" stt="0">Trả lời</a>
+										</div>
+									</div>
+									<p>${data.content}</p>
+								</div>`
+							);
+						},
+						error: function(err) {
+							alert(err);
+						}
+					});
+				});
+			});
+		</script>
+	@endauth
 @endsection
