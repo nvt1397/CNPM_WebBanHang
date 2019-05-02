@@ -183,53 +183,6 @@
 				<div class="tab-pane fade show active" id="contact" role="tabpanel" aria-labelledby="contact-tab">
 					<div class="row">
 						<div class="col">
-							<div class="comment_list" id="comment_list">
-								@foreach ($comments as $comment)
-									<div class="review_item">
-										<div class="media">
-											<div class="d-flex">
-												<img src="{{asset($comment->user->avatar_link)}}" style="width:40px;height:40px" alt="">
-											</div>
-											<div class="media-body">
-												<h4>{{$comment->user->name}}</h4>
-												<h5>{{date('d/m/Y - H:i:s', $comment->created_at->timestamp)}}</h5>
-												@auth<a class="reply_btn" href="#" number_comment="{{$comment->id}}" stt="0">Trả lời</a>@endauth
-											</div>
-										</div>
-										<p>{{$comment->content}}</p>
-									</div>
-									@auth
-									<div class="review_box mt-4 rep_box" id="{{'rep_box'.($comment->id)}}">
-											<form class="row contact_form" action="contact_process.php" method="post" id="contactForm" novalidate="novalidate">
-												@csrf
-												<div class="col-md-12">
-													<div class="form-group">
-														<textarea class="form-control" name="message" rows="1" placeholder="Bình luận"></textarea>
-													</div>
-												</div>
-												<div class="col-md-12 text-right">
-													<button type="submit" value="submit" class="btn primary-btn">Gửi</button>
-												</div>
-											</form>
-										</div>
-									@endauth
-									@foreach ($comment->repComment as $rep)
-										<div class="review_item reply">
-											<div class="media">
-												<div class="d-flex">
-													<img src="{{asset($rep->user->avatar_link)}}" style="width:40px;height:40px" alt="">
-												</div>
-												<div class="media-body">
-													<h4>{{$rep->user->name}}</h4>
-													<h5>{{date('d/m/Y - H:i:s', $rep->created_at->timestamp)}}</h5>
-												</div>
-											</div>
-											<p>{{$rep->content}}</p>
-										</div>
-									@endforeach
-
-								@endforeach
-							</div>
 								@auth
 								<div class="review_box mt-4" id="comment_box">
 									<h4>Gửi bình luận</h4>
@@ -246,6 +199,53 @@
 									</form>
 								</div>
 								@endauth
+							<div class="comment_list" id="comment_list">
+								@foreach ($comments->reverse() as $comment)
+									<div class="review_item">
+										<div class="media" id="comment_{{$comment->id}}">
+											<div class="d-flex">
+												<img src="{{asset($comment->user->avatar_link)}}" style="width:40px;height:40px" alt="">
+											</div>
+											<div class="media-body">
+												<h4>{{$comment->user->name}}</h4>
+												<h5>{{date('d/m/Y - H:i:s', $comment->created_at->timestamp)}}</h5>
+												@auth<a class="reply_btn" href="#" number_comment="{{$comment->id}}" stt="0">Trả lời</a>@endauth
+											</div>
+										</div>
+										<p>{{$comment->content}}</p>
+									</div>
+									@auth
+									<div class="review_box mt-4 rep_box" id="{{'rep_box'.($comment->id)}}">
+											<form class="row contact_form" action="contact_process.php" method="post" id="rep_form{{$comment->id}}" novalidate="novalidate">
+												@csrf
+												<div class="col-md-12">
+													<div class="form-group">
+														<textarea class="form-control" name="message" rows="1" placeholder="Trả lời"></textarea>
+													</div>
+												</div>
+												<div class="col-md-12 text-right">
+													<button type="button" id="{{"rep_btn".($comment->id)}}" rep_number="{{$comment->id}}" value="submit" class="btn primary-btn rep_btn">Gửi</button>
+												</div>
+											</form>
+										</div>
+									@endauth
+									@foreach ($comment->repComment->reverse() as $rep)
+										<div class="review_item reply">
+											<div class="media">
+												<div class="d-flex">
+													<img src="{{asset($rep->user->avatar_link)}}" style="width:40px;height:40px" alt="">
+												</div>
+												<div class="media-body">
+													<h4>{{$rep->user->name}}</h4>
+													<h5>{{date('d/m/Y - H:i:s', $rep->created_at->timestamp)}}</h5>
+												</div>
+											</div>
+											<p>{{$rep->content}}</p>
+										</div>
+									@endforeach
+
+								@endforeach
+							</div>
 						</div>
 					</div>
 				</div>
@@ -561,12 +561,53 @@
 						'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 					}
 				});
+				function repForm() {
+						let comment_id = $(this).attr("rep_number");
+						let msg = $(`#rep_form${comment_id}`).serializeArray()[1]["value"];
+						document.getElementById(`rep_form${comment_id}`).reset();
+						$.ajax({
+							url: "{{ route('rep_comment') }}",
+							type: "POST",
+							beforeSend: function (xhr) {
+								var token = $('meta[name="csrf_token"]').attr('content');
+								if (token) {
+									return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+								}
+							},
+							data: {
+								message: msg, 
+								comment1_id: comment_id
+							},
+							success: function(data) {
+								console.log(data);
+								$(`#rep_box${comment_id}`).after(
+									`<div class="review_item reply">
+										<div class="media">
+											<div class="d-flex">
+												<img src="{{asset(Auth::user()->img_link)}}" style="width:40px;height:40px" alt="">
+											</div>
+											<div class="media-body">
+												<h4>{{Auth::user()->name}}</h4>
+												<h5>${data.created_at}</h5>
+											</div>
+										</div>
+										<p>${data.content}</p>
+									</div>`
+								);
+
+							},
+							error: function(err) {
+								alert("Vui lòng nhập nội dung");
+							}
+						});
+					}
 
 				$("#comment_btn").click(function() {
 					let formData = $("#comment_form").serializeArray();
 					let _token = formData[0]["value"];
 					let msg = formData[1]["value"];
 					document.getElementById('comment_form').reset();
+
 					$.ajax({
 						url: "{{ route('comment') }}",
 						type: "POST",
@@ -581,9 +622,9 @@
 							product_id: {{ $product->id }}
 						},
 						success: function(data) {
-							$("#comment_list").append(
+							$("#comment_list").prepend(
 								`<div class="review_item">
-									<div class="media">
+									<div class="media" id="comment_${data.id}">
 										<div class="d-flex">
 											<img src="{{asset(Auth::user()->avatar_link)}}" style="width:40px;height:40px" alt="">
 										</div>
@@ -596,27 +637,29 @@
 									<p>${data.content}</p>
 								</div>
 								<div class="review_box mt-4 rep_box" id="${"rep_box"+data.id}">
-											<form class="row contact_form" action="contact_process.php" method="post" id="contactForm" novalidate="novalidate">
+											<form class="row contact_form" action="contact_process.php" method="post" id="rep_form${data.id}" novalidate="novalidate">
 												@csrf
 												<div class="col-md-12">
 													<div class="form-group">
-														<textarea class="form-control" name="message" rows="1" placeholder="Bình luận"></textarea>
+														<textarea class="form-control" name="message" rows="1" placeholder="Trả lời"></textarea>
 													</div>
 												</div>
 												<div class="col-md-12 text-right">
-													<button type="submit" value="submit" class="btn primary-btn">Gửi</button>
+													<button type="button" value="submit" id="rep_btn${data.id}" rep_number="${data.id}" class="btn primary-btn">Gửi</button>
 												</div>
 											</form>
 										</div>`
 							);
 							$("#rep_box"+data.id).hide();
 							$(`.reply_btn[number_comment="${data.id}"`).click(replyBtnClick);
+							$(`#rep_btn${data.id}`).click(repForm);
 						},
 						error: function(err) {
 							alert("Vui lòng nhập nội dung");
 						}
 					});
 				});
+				$(".rep_btn").click(repForm);
 			});
 		</script>
 	@endauth

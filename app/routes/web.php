@@ -46,7 +46,7 @@ Route::post('/comment', function(Request $request) {
         $comment = new App\Comment1();
         $comment->user_id = Auth::id();
         $comment->product_id = $request->product_id;
-        $comment->content = $request->message;
+        $comment->content = htmlspecialchars($request->message);
         $comment->save();
 
         $result = array();
@@ -57,3 +57,19 @@ Route::post('/comment', function(Request $request) {
         return $result;
     }
 }) -> name('comment');
+
+Route::post('/rep_comment', function(Request $request) {
+    if (Auth::check()) {
+        $rep = new App\Comment2();
+        $rep->user_id = Auth::id();
+        $rep->cmt1_id = $request->comment1_id;
+        $rep->content = htmlspecialchars($request->message);
+        $rep->save();
+
+        $result = array();
+        $result['created_at'] = date('d/m/Y - H:i:s', $rep->created_at->timestamp);
+        $result['content'] = $rep->content;
+        $result['id'] = $rep->id;
+        return $result;
+    }
+}) -> name('rep_comment');
