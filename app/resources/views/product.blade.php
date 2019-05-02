@@ -265,112 +265,74 @@
 								<div class="col-6">
 									<div class="box_total">
 										<h5>Đánh giá chung</h5>
-										<h4>{{$product->star}}</h4>
-										<h6>({{$product->rating_number}} đánh giá)</h6>
+										<h4>{{number_format($product->reviews->avg('stars'), 1)}}</h4>
+										<h6>({{$product->reviews->count()}} đánh giá)</h6>
 									</div>
 								</div>
 								<div class="col-6">
 									<div class="rating_list">
-										<h3>Dựa trên {{$product->rating_number}} đánh giá</h3>
+										<h3>Dựa trên {{$product->reviews->count()}} đánh giá</h3>
 										<ul class="list">
 											<li><a href="#">5 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
-													 class="fa fa-star"></i><i class="fa fa-star"></i> 01</a></li>
+													 class="fa fa-star"></i><i class="fa fa-star"></i></a></li>
 											<li><a href="#">4 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
-													 class="fa fa-star"></i><i class="fa fa-star"></i> 01</a></li>
+													 class="fa fa-star"></i><i class="fa fa-star-o"></i></a></li>
 											<li><a href="#">3 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
-													 class="fa fa-star"></i><i class="fa fa-star"></i> 01</a></li>
-											<li><a href="#">2 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
-													 class="fa fa-star"></i><i class="fa fa-star"></i> 01</a></li>
-											<li><a href="#">1 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
-													 class="fa fa-star"></i><i class="fa fa-star"></i> 01</a></li>
+													 class="fa fa-star-o"></i><i class="fa fa-star-o"></i></a></li>
+											<li><a href="#">2 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i><i
+													 class="fa fa-star-o"></i><i class="fa fa-star-o"></i></a></li>
+											<li><a href="#">1 Star <i class="fa fa-star"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i><i
+													 class="fa fa-star-o"></i><i class="fa fa-star-o"></i></a></li>
 										</ul>
 									</div>
 								</div>
 							</div>
-							<div class="review_list">
+							<div class="review_list" id="review_star_list">
+								@foreach ($reviews->reverse() as $review)
 								<div class="review_item">
 									<div class="media">
 										<div class="d-flex">
-											<img src="img/product/review-1.png" alt="">
+											<img src="{{asset($review->user->avatar_link)}}" style="width:40px;height:40px;" alt="">
 										</div>
 										<div class="media-body">
-											<h4>Blake Ruiz</h4>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
+											<h4>{{$review->user->name}}</h4>
+											@for ($i = 0; $i < $review->stars; $i++)
+												<i class="fa fa-star"></i>
+											@endfor
 										</div>
 									</div>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-										dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-										commodo</p>
+									<p>{{$review->content}}</p>
 								</div>
-								<div class="review_item">
-									<div class="media">
-										<div class="d-flex">
-											<img src="img/product/review-2.png" alt="">
-										</div>
-										<div class="media-body">
-											<h4>Blake Ruiz</h4>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-										</div>
-									</div>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-										dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-										commodo</p>
-								</div>
-								<div class="review_item">
-									<div class="media">
-										<div class="d-flex">
-											<img src="img/product/review-3.png" alt="">
-										</div>
-										<div class="media-body">
-											<h4>Blake Ruiz</h4>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-										</div>
-									</div>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-										dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-										commodo</p>
-								</div>
+								@endforeach
 							</div>
 						</div>
 						<div class="col-lg-6">
-							<div class="review_box">
-								<h4>Add a Review</h4>
-								<p>Your Rating:</p>
-								<ul class="list">
-									<li><a href="#"><i class="fa fa-star"></i></a></li>
-									<li><a href="#"><i class="fa fa-star"></i></a></li>
-									<li><a href="#"><i class="fa fa-star"></i></a></li>
-									<li><a href="#"><i class="fa fa-star"></i></a></li>
-									<li><a href="#"><i class="fa fa-star"></i></a></li>
-								</ul>
-								<p>Outstanding</p>
-								<form class="row contact_form" action="contact_process.php" method="post" id="contactForm" novalidate="novalidate">
+							@auth
+							@if ($product->reviews->where('user_id', Auth::id())->count() === 0)
+							<div class="review_box" id="review_panel_box">
+								<h4>Thêm đánh giá</h4>
+								<form class="row contact_form" action="contact_process.php" method="post" id="review_form" novalidate="novalidate">
 									<div class="col-md-12">
-										<div class="form-group">
-											<input type="text" class="form-control" name="name" placeholder="Your Full name" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Your Full name'">
-										</div>
-									</div>
-									<div class="col-md-12">
-										<div class="form-group">
-											<input type="email" class="form-control" name="email" placeholder="Email Address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address'">
-										</div>
-									</div>
-									<div class="col-md-12">
-										<div class="form-group">
-											<input type="text" class="form-control" name="number" placeholder="Phone Number" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number'">
-										</div>
+											<div class="custom-control custom-radio">
+												<input type="radio" class="custom-control-input" id="star1" value="1" name="radio-stacked" required>
+												<label class="custom-control-label" for="star1">1</label>
+											</div>
+											<div class="custom-control custom-radio">
+												<input type="radio" class="custom-control-input" id="star2" value="2" name="radio-stacked" required>
+												<label class="custom-control-label" for="star2">2</label>
+											</div>
+											<div class="custom-control custom-radio">
+												<input type="radio" class="custom-control-input" id="star3" value="3" name="radio-stacked" required>
+												<label class="custom-control-label" for="star3">3</label>
+											</div>
+											<div class="custom-control custom-radio">
+												<input type="radio" class="custom-control-input" id="star4" value="4" name="radio-stacked" required>
+												<label class="custom-control-label" for="star4">4</label>
+											</div>
+											<div class="custom-control custom-radio">
+												<input type="radio" class="custom-control-input" id="star5" value="5" name="radio-stacked" checked required>
+												<label class="custom-control-label" for="star5">5</label>
+											</div>
 									</div>
 									<div class="col-md-12">
 										<div class="form-group">
@@ -378,9 +340,13 @@
 										</div>
 									</div>
 									<div class="col-md-12 text-right">
-										<button type="submit" value="submit" class="primary-btn">Submit Now</button>
+										<button type="button" value="submit" id="review_btn" class="primary-btn">Gửi đánh giá</button>
 									</div>
 								</form>
+								@else
+									<h4>Bạn đã đánh giá sản phẩm này</h4>
+								@endif
+								@endauth
 							</div>
 						</div>
 					</div>
@@ -672,8 +638,55 @@
 						}
 					});
 				});
+
 				$(".rep_btn").click(repForm);
+
+				$("#review_btn").click(function() {
+					let reviewForm = $("#review_form").serializeArray();
+					let star = reviewForm[0]['value'];
+					let msg = reviewForm[1]['value'];
+					document.getElementById('review_form').reset();
+					$.ajax({
+						url: "{{ route('review') }}",
+						type: "POST",
+						beforeSend: function (xhr) {
+							var token = $('meta[name="csrf_token"]').attr('content');
+							if (token) {
+								return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+							}
+						},
+						data: {
+							stars: star,
+							message: msg,
+							product_id: {{$product->id}}
+						},
+						success: function(data) {
+							$('#review_star_list').prepend(
+								`<div class="review_item">
+									<div class="media">
+										<div class="d-flex">
+											<img src="{{asset(Auth::user()->avatar_link)}}" style="width:40px;height:40px;" alt="">
+										</div>
+										<div class="media-body">
+											<h4>{{Auth::user()->name}}</h4>`+
+												`<i class="fa fa-star"></i>
+												`.repeat(data)+
+										`
+										</div>
+									</div>
+									<p>${msg}</p>
+								</div>`
+							);
+							$("#review_panel_box").after("<h4>Bạn đã đánh giá sản phẩm này");
+							$("#review_panel_box").remove();
+						},
+						error: function(err) {
+							alert('Lỗi');
+						}
+					});
+				});
 			});
+
 		</script>
 	@endauth
 @endsection
