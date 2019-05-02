@@ -16,6 +16,11 @@
 	<link rel="stylesheet" href={{ asset("css/ion.rangeSlider.css") }} />
 	<link rel="stylesheet" href={{ asset("css/ion.rangeSlider.skinFlat.css") }} />
 	<link rel="stylesheet" href={{ asset("css/main.css") }}>
+	<style>
+		* {
+			word-wrap: break-word;
+		}
+	</style>
 @endsection
 
 @section('content')
@@ -201,7 +206,7 @@
 								@endauth
 							<div class="comment_list" id="comment_list">
 								@foreach ($comments->reverse() as $comment)
-									<div class="review_item">
+									<div class="review_item" style="overflow:auto">
 										<div class="media" id="comment_{{$comment->id}}">
 											<div class="d-flex">
 												<img src="{{asset($comment->user->avatar_link)}}" style="width:40px;height:40px" alt="">
