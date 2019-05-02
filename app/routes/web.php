@@ -28,7 +28,8 @@ Route::get('/product/id/{product_id}', function($product_id) {
     }
     return view('product', [
         'product' => $product,
-        'comments' => $product->comments
+        'comments' => $product->comments,
+        'reviews' => $product->reviews
     ]);
 });
 
@@ -73,3 +74,15 @@ Route::post('/rep_comment', function(Request $request) {
         return $result;
     }
 }) -> name('rep_comment');
+
+Route::post('/review', function(Request $request) {
+    if (Auth::check()) {
+        $review = new App\Review();
+        $review->user_id = Auth::id();
+        $review->product_id = (int)($request->product_id);
+        $review->stars = (int)($request->stars);
+        $review->content = $request->message;
+        $review->save();
+        return $review->stars;
+    }
+}) -> name('review');
