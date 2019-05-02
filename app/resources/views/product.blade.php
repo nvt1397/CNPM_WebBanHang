@@ -189,7 +189,7 @@
 					<div class="row">
 						<div class="col">
 								@auth
-								<div class="review_box mt-4" id="comment_box">
+								<div class="review_box mb-4" id="comment_box">
 									<h4>Gửi bình luận</h4>
 								<form class="row contact_form" method="get" id="comment_form" novalidate="novalidate">
 										@csrf
@@ -203,6 +203,8 @@
 										</div>
 									</form>
 								</div>
+								<hr>
+								<br>
 								@endauth
 							<div class="comment_list" id="comment_list">
 								@foreach ($comments->reverse() as $comment)
@@ -248,7 +250,9 @@
 											<p>{{$rep->content}}</p>
 										</div>
 									@endforeach
-
+									<br>
+									<hr>
+									<br>
 								@endforeach
 							</div>
 						</div>
@@ -570,6 +574,7 @@
 						let comment_id = $(this).attr("rep_number");
 						let msg = $(`#rep_form${comment_id}`).serializeArray()[1]["value"];
 						document.getElementById(`rep_form${comment_id}`).reset();
+						$(`.reply_btn[number_comment="${comment_id}"]`).click();
 						$.ajax({
 							url: "{{ route('rep_comment') }}",
 							type: "POST",
@@ -589,7 +594,7 @@
 									`<div class="review_item reply">
 										<div class="media">
 											<div class="d-flex">
-												<img src="{{asset(Auth::user()->img_link)}}" style="width:40px;height:40px" alt="">
+												<img src="{{asset(Auth::user()->avatar_link)}}" style="width:40px;height:40px" alt="">
 											</div>
 											<div class="media-body">
 												<h4>{{Auth::user()->name}}</h4>
@@ -653,7 +658,10 @@
 													<button type="button" value="submit" id="rep_btn${data.id}" rep_number="${data.id}" class="btn primary-btn">Gửi</button>
 												</div>
 											</form>
-										</div>`
+										</div>
+										<br>
+										<hr>
+										<br>`
 							);
 							$("#rep_box"+data.id).hide();
 							$(`.reply_btn[number_comment="${data.id}"`).click(replyBtnClick);

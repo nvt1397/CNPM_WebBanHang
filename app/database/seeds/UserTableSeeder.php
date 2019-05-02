@@ -17,12 +17,14 @@ class UserTableSeeder extends Seeder
         $super_admin->name = 'Super Admin';
         $super_admin->email = 'superadmin@gmail.com';
         $super_admin->password = bcrypt('superadmin');
+        $super_admin->avatar_link = 'img/login.jpg'; 
         $super_admin->role_id = 1;
         $super_admin->save();
 
         $admin = new User();
         $admin->name = 'Admin';
         $admin->email = 'admin@gmail.com';
+        $admin->avatar_link = 'img/login.jpg';
         $admin->password = bcrypt('admin');
         $admin->role_id = 2;
         $admin->save();
@@ -30,6 +32,7 @@ class UserTableSeeder extends Seeder
         $user = new User();
         $user->name = 'User';
         $user->email = 'user@gmail.com';
+        $user->avatar_link = 'img/login.jpg';
         $user->password = bcrypt('user');
         $user->role_id = 3;
         $admin->save();
