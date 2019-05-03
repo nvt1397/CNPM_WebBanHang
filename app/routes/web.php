@@ -81,7 +81,7 @@ Route::post('/review', function(Request $request) {
         $review->user_id = Auth::id();
         $review->product_id = (int)($request->product_id);
         $review->stars = (int)($request->stars);
-        $review->content = $request->message;
+        $review->content = htmlspecialchars($request->message);
         $review->save();
         return $review->stars;
     }
