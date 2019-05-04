@@ -30,13 +30,13 @@
 		<div class="container">
 			<div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
 				<div class="col-first">
-					<h1><span class="badge badge-warning">{{$product->name}}</span></h1>
-					<nav class="d-flex align-items-center">
+					<h1 class="text-secondary">{{$product->name}}</h1>
+				<!--	<nav class="d-flex align-items-center">
 						<a href="index.html">Trang chủ<span class="lnr lnr-arrow-right"></span></a>
 						<a href="#">Sản phẩm<span class="lnr lnr-arrow-right"></span></a>
 						<a href="#">{{$product->name}}</a>
 					</nav>
-					
+				-->
 				</div>
 			</div>
 		</div>
@@ -65,7 +65,7 @@
 						<h3 style="font-family: Arial, Helvetica, sans-serif;">{{$product->name}}</h3>
 						<h2 style="font-family: Arial, Helvetica, sans-serif;">Giá: {{number_format($product->price, 0)}} VNĐ</h2>
 						<ul class="list">
-							<li><a class="active" href="#"><span>Loại</span> : Giày thể thao nam</a></li>
+							<li><a class="active" href="#"><span>Loại</span> : </a></li>
 							<li><a href="#"><span>Tình trạng</span> : In Stock</a></li>
 						</ul>
 						<p>{{$product->description}}</p>
