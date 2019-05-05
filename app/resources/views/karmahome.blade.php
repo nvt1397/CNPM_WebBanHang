@@ -534,11 +534,12 @@
 					<div class="active-exclusive-product-slider">
 						@foreach (App\Product::inRandomOrder()->take(6)->get() as $item)
 						<div class="single-exclusive-slider">
+							<a href="{{route('product', ['id'=>$item->id])}}">
 							<img class="img-fluid" src="{{asset($item->img_link)}}" alt="">
+							</a>
 							<div class="product-details">
 								<div class="price">
 									<h6>{{number_format($item->price, 0)}}</h6>
-									<h6 class="l-through">$210.00</h6>
 								</div>
 								<h4>{{$item->name}}</h4>
 								<div class="add-bag d-flex align-items-center justify-content-center">
