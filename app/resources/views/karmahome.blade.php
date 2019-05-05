@@ -221,10 +221,8 @@
 				<div class="row justify-content-center">
 					<div class="col-lg-6 text-center">
 						<div class="section-title">
-							<h1>Coming Products</h1>
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-								dolore
-								magna aliqua.</p>
+							<h1>Hàng sắp nhập</h1>
+							<p>Mẫu mới cấp nhật 2019</p>
 						</div>
 					</div>
 				</div>
@@ -506,66 +504,50 @@
 				<div class="col-lg-6 no-padding exclusive-left">
 					<div class="row clock_sec clockdiv" id="clockdiv">
 						<div class="col-lg-12">
-							<h1>Exclusive Hot Deal Ends Soon!</h1>
-							<p>Who are in extremely love with eco friendly system.</p>
+							<h1>Đặt hàng sớm nhất để nhận ưu đãi</h1>
+							<p>Số lượng ưu đãi áp dụng có hạn</p>
 						</div>
 						<div class="col-lg-12">
 							<div class="row clock-wrap">
 								<div class="col clockinner1 clockinner">
-									<h1 class="days">150</h1>
-									<span class="smalltext">Days</span>
+									<h1 class="days">5</h1>
+									<span class="smalltext">Ngày</span>
 								</div>
 								<div class="col clockinner clockinner1">
 									<h1 class="hours">23</h1>
-									<span class="smalltext">Hours</span>
+									<span class="smalltext">Giờ</span>
 								</div>
 								<div class="col clockinner clockinner1">
 									<h1 class="minutes">47</h1>
-									<span class="smalltext">Mins</span>
+									<span class="smalltext">Phút</span>
 								</div>
 								<div class="col clockinner clockinner1">
 									<h1 class="seconds">59</h1>
-									<span class="smalltext">Secs</span>
+									<span class="smalltext">Giây</span>
 								</div>
 							</div>
 						</div>
 					</div>
-					<a href="" class="primary-btn">Shop Now</a>
+					<a href="" class="primary-btn">Mua hàng ngay</a>
 				</div>
 				<div class="col-lg-6 no-padding exclusive-right">
 					<div class="active-exclusive-product-slider">
-						<!-- single exclusive carousel -->
+						@foreach (App\Product::inRandomOrder()->take(6)->get() as $item)
 						<div class="single-exclusive-slider">
-							<img class="img-fluid" src="img/product/e-p1.png" alt="">
+							<img class="img-fluid" src="{{asset($item->img_link)}}" alt="">
 							<div class="product-details">
 								<div class="price">
-									<h6>$150.00</h6>
+									<h6>{{number_format($item->price, 0)}}</h6>
 									<h6 class="l-through">$210.00</h6>
 								</div>
-								<h4>addidas New Hammer sole
-									for Sports person</h4>
+								<h4>{{$item->name}}</h4>
 								<div class="add-bag d-flex align-items-center justify-content-center">
 									<a class="add-btn" href=""><span class="ti-bag"></span></a>
-									<span class="add-text text-uppercase">Add to Bag</span>
+									<span class="add-text text-uppercase">Thêm vào giỏ hàng</span>
 								</div>
 							</div>
 						</div>
-						<!-- single exclusive carousel -->
-						<div class="single-exclusive-slider">
-							<img class="img-fluid" src="img/product/e-p1.png" alt="">
-							<div class="product-details">
-								<div class="price">
-									<h6>$150.00</h6>
-									<h6 class="l-through">$210.00</h6>
-								</div>
-								<h4>addidas New Hammer sole
-									for Sports person</h4>
-								<div class="add-bag d-flex align-items-center justify-content-center">
-									<a class="add-btn" href=""><span class="ti-bag"></span></a>
-									<span class="add-text text-uppercase">Add to Bag</span>
-								</div>
-							</div>
-						</div>
+						@endforeach
 					</div>
 				</div>
 			</div>
@@ -735,4 +717,6 @@
 	<!-- End related-product Area -->
 
 @endsection
-
+@section('javascript')
+	@parent
+@endsection

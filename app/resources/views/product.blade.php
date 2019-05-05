@@ -65,8 +65,8 @@
 						<h3 style="font-family: Arial, Helvetica, sans-serif;">{{$product->name}}</h3>
 						<h2 style="font-family: Arial, Helvetica, sans-serif;">Giá: {{number_format($product->price, 0)}} VNĐ</h2>
 						<ul class="list">
-							<li><a class="active" href="#"><span>Loại</span> : </a></li>
-							<li><a href="#"><span>Tình trạng</span> : In Stock</a></li>
+							<li><a class="active" href="#"><span>Loại</span> : {{$product->catalog ? $product->catalog->name : "Không có"}}</a></li>
+							<li><a href="#"><span>Tình trạng</span> : Sẵn có</a></li>
 						</ul>
 						<p>{{$product->description}}</p>
 						<div class="product_count">

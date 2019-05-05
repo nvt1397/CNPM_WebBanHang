@@ -15,4 +15,8 @@ class Product extends Model
     public function reviews() {
         return $this->hasMany('App\Review', 'product_id', 'id');
     }
+
+    public function catalog() {
+        return $this->belongsTo('App\Catalog');
+    }
 }

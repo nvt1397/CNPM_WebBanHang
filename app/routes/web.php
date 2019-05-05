@@ -76,7 +76,8 @@ Route::post('/rep_comment', function(Request $request) {
 }) -> name('rep_comment');
 
 Route::post('/review', function(Request $request) {
-    if (Auth::check()) {
+    if (Auth::check() &&
+        App\Review::where('user_id', '=', Auth::id())->where('product_id','=', $request->product_id)->count() == 0) {
         $review = new App\Review();
         $review->user_id = Auth::id();
         $review->product_id = (int)($request->product_id);
