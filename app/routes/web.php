@@ -14,8 +14,8 @@ use App\Product;
 use Illuminate\Http\Request;
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('karmahome');
+}) -> name('karmahome');
 
 Auth::routes();
 
@@ -31,7 +31,7 @@ Route::get('/product/id/{product_id}', function($product_id) {
         'comments' => $product->comments,
         'reviews' => $product->reviews
     ]);
-});
+}) -> name('product');
 
 Route::post('/quicklogout', function() {
     Auth::logout();

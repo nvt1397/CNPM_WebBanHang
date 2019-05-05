@@ -33,6 +33,7 @@
 		<link rel="stylesheet" href={{ asset("css/nouislider.min.css") }}>
 		<link rel="stylesheet" href={{ asset("css/ion.rangeSlider.css") }} />
 		<link rel="stylesheet" href={{ asset("css/ion.rangeSlider.skinFlat.css") }} />
+		<link rel="stylesheet" href={{ asset("css/magnific-popup.css") }}>
 		<link rel="stylesheet" href={{ asset("css/main.css") }}>
     @show
 </head>
@@ -55,8 +56,8 @@
 					<!-- Collect the nav links, forms, and other content for toggling -->
 					<div class="collapse navbar-collapse offset" id="navbarSupportedContent">
 						<ul class="nav navbar-nav menu_nav ml-auto">
-							<li class="nav-item"><a class="nav-link" href="index.html">Trang chủ</a></li>
-							<li class="nav-item submenu dropdown active">
+							<li class="nav-item"><a class="nav-link" href="{{ route('karmahome') }}">Trang chủ</a></li>
+							<li class="nav-item submenu dropdown">
 								<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
 								 aria-expanded="false">Cửa hàng</a>
 								<ul class="dropdown-menu">
