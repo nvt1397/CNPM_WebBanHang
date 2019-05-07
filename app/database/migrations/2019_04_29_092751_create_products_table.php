@@ -21,6 +21,7 @@ class CreateProductsTable extends Migration
             $table->integer('rating_number')->default(0);
             $table->string('img_link', 180)->nullable();
             $table->string('img_list', 180)->nullable();
+            $table->string('product_string', 180)->nullable();
             $table->text('description')->nullable();
             $table->integer('view')->unsigned()->nullable()->default(0);
             $table->unsignedBigInteger('catalog_id')->nullable();

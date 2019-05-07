@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
@@ -28,7 +29,9 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    public function redirectTo() {
+        return session('prev_link');
+    }
 
     /**
      * Create a new controller instance.
@@ -37,6 +40,7 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
+        session(['prev_link' => url()->previous()]);
         $this->middleware('guest');
     }
 
