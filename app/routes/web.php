@@ -88,6 +88,10 @@ Route::post('/review', function(Request $request) {
     }
 }) -> name('review');
 
-Route::get('/catalog', function() {
-    return view('catalog');
+Route::get('/catalog/{id?}', function($id = 0) {
+    $products = ($id == 0) ? (App\Product::paginate(6)) : (App\Product::where('catalog_id', (int)$id)->paginate(6));
+    return view('catalog', [
+        'id' => $id,
+        'products' => $products
+    ]);
 }) -> name('catalog_route');
