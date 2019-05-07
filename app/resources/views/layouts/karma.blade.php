@@ -61,7 +61,7 @@
 								<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
 								 aria-expanded="false">Cửa hàng</a>
 								<ul class="dropdown-menu">
-									<li class="nav-item"><a class="nav-link" href="category.html">Danh mục</a></li>
+									<li class="nav-item"><a class="nav-link" href="{{route('catalog_route')}}">Danh mục</a></li>
 									<li class="nav-item"><a class="nav-link" href="checkout.html">Kiểm tra sản phẩm</a></li>
 									<li class="nav-item"><a class="nav-link" href="cart.html">Giỏ hàng</a></li>
 									<li class="nav-item"><a class="nav-link" href="confirmation.html">Xác nhận</a></li>

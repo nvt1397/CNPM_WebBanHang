@@ -87,3 +87,7 @@ Route::post('/review', function(Request $request) {
         return $review->stars;
     }
 }) -> name('review');
+
+Route::get('/catalog', function() {
+    return view('catalog');
+}) -> name('catalog_route');
