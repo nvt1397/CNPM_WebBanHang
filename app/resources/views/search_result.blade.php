@@ -26,12 +26,12 @@
         @foreach($product as $cur)
         <tbody>
             <tr>
-            <th><?php echo $name=$cur["name"];?></th>
-            <th><img width="100" height="100" src="<?php echo $cur["img_link"]; ?>" /></th>
-            <th><?php echo $cur["catalog_id"]; ?></th>
-            <th><?php echo $cur["star"]; ?></th>
-            <th><?php echo $cur["price"]; ?></th>
-            <th><a <?php $curID = $cur["id"];?> role="button" href="{{route('product',$curID)}}" class="lnr lnr-enter" style="border: none; background: none;"  title="Product"></a></th>
+            <th><?php echo $cur["name"];?></th>
+            <th><img width="100" height="100" src="<?php echo $cur->img_link; ?>" /></th>
+            <th><?php echo $cur->catalog->name?></th>
+            <th><?php echo $cur->star; ?></th>
+            <th><?php echo (int)$cur->price; ?> {{" VND"}} </th>
+            <th><a role="button" href="{{route('product',$cur->id)}}" class="lnr lnr-enter" style="border: none; background: none;"  title="Product"></a></th>
             </tr>
             </tr>
         </tbody>
