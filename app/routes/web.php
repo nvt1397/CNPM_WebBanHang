@@ -87,3 +87,16 @@ Route::post('/review', function(Request $request) {
         return $review->stars;
     }
 }) -> name('review');
+
+Route::any('/advanced_search', function() {
+    return view('advanced_search');
+})->name('advanced_search');
+
+Route::get('/search', function(Request $req) {
+    $product = Product::where('name','like','%'.$req->search_input.'%')->get();
+    return view('search_result',compact('product'));
+})->name('search');
+
+Route::any('/search_result', function() {
+    $search_input = Input::get ('search_input');
+})->name('search_result');
