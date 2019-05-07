@@ -28,7 +28,11 @@ class CatalogTableSeeder extends Seeder
         $c4->save();
 
         $c5 = new App\Catalog();
-        $c5->name = "Giày dép trẻ em";
+        $c5->name = "Dép quai hậu";
         $c5->save();
+
+        $c6 = new App\Catalog();
+        $c6->name = "Giày dép trẻ em";
+        $c6->save();
     }
 }
