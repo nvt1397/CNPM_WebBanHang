@@ -13,7 +13,7 @@
             <div class="card">
                 <div class="card-header" style="color: black; font-size: 30px; text-shadow: 1px 1px orange;" >Tìm kiếm nâng cao</div>
                 <div class="card-body">
-                    <form method="POST" onsubmit="return max_min_compare();" action="{{ route('search_result') }}">
+                    <form method="POST" onsubmit="return max_min_compare();" action="{{ route('advanced_search_result') }}">
                         <!-- search input -->
                         <div class="form-group row">
                             <label for="search" class="col-md-4 col-form-label text-md-right">{{ __('Tìm kiếm') }}</label>
@@ -35,8 +35,12 @@
                         <div class="form-group row mb-0">
                         <label for="catalog" class="col-md-4 col-form-label text-md-right">{{ __('Loại sản phẩm') }}</label>
                             <div class="col-md-6">
+
                                 <select name="catalog">
                                     <option value="" selected="selected">--Chọn loại sản phẩm--</option>
+                                    @foreach (App\Catalog::all() as $c)
+                                    <option value="">{{$c->name }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>  
@@ -46,6 +50,9 @@
                             <div class="col-md-6">
                                 <select name="brand">
                                     <option value="" selected="selected">--Chọn hãng sản xuất--</option>
+                                    @foreach (App\Trademark::all() as $t)
+                                    <option value="">{{$t->name }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
