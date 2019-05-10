@@ -114,7 +114,7 @@
 		<div class="search_input" id="search_input_box">
 			<div class="container">
 				<form class="d-flex justify-content-between" method="get" action="{{route('search')}}">
-					<input type="text" style="width: 1000px;" class="form-control" name="search_input" placeholder="Nhập thông tin tìm kiếm">
+					<input type="text" style="width: 1000px;" class="form-control" name="search_input" placeholder="Nhập thông tin tìm kiếm" required>
 					<span class="lnr lnr-cross" style="padding-up:20px;" id="close_search" title="Close Search"></span>     
 				</form>
 				<a role="button" href="{{ route('advanced_search')}}" class="lnr lnr-arrow-down" style="color:white; border: none; background: none;"  id="advanced_search" title="Advanced Search"></a>                  

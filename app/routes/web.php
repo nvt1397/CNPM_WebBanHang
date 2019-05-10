@@ -106,6 +106,27 @@ Route::get('/search', function(Request $req) {
     return view('search_result',compact('product'));
 })->name('search');
 
-Route::any('/advanced_search_result', function() {
+Route::get('/advanced_search_result', function(Request $req) {
+    $products = Product::where('name','like','%'.$req->search_input.'%')->get();
+    $product = array();
+    if($req->min_price == null)
+    $req->min_price = "0";
+    if($req->max_price == null)
+    $req->max_price = "100000000";
+    if($req->max_price < $req->min_price){     
+        return back()->with('status','Giá trị MAX không hợp lệ!!!');
+    }
+    foreach($products as $p){
+        if(($p->price >=$req->min_price)&&($p->price <= $req->max_price)){
+            if($req->catalog == "0") {
+                if($req->brand == "0") array_push($product, $p);
+                else if($p->trademark_id == $req->brand) array_push($product, $p);
+            }
+            else if($p->catalog_id == $req->catalog) {
+                if($req->brand == "0") array_push($product, $p);
+                else if($p->trademark_id == $req->brand) array_push($product, $p);
+            }
+        }
+    }
+    return view('search_result',compact('product'));
 })->name('advanced_search_result');
-
