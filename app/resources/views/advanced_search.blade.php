@@ -6,27 +6,32 @@
 <br>
 <br>        
 <br>   
-<br>
+<br>   
 <div class="container mt-5 mb-5">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header" style="color: black; font-size: 30px; text-shadow: 1px 1px orange;" >Tìm kiếm nâng cao</div>
+                @if (session('status'))
+                    <div class="alert alert-success">
+                    {{ session('status') }}
+                    </div>
+                @endif 
                 <div class="card-body">
-                    <form method="POST" onsubmit="return max_min_compare();" action="{{ route('advanced_search_result') }}">
+                    <form method="get" action="{{ route('advanced_search_result') }}">
                         <!-- search input -->
                         <div class="form-group row">
                             <label for="search" class="col-md-4 col-form-label text-md-right">{{ __('Tìm kiếm') }}</label>
                             <div class="col-md-6">
-                                <input id="search_input" type="text" class="form-control" name="search_input" required>
+                                <input id="search_input" type="text" class="form-control" style="color:black;" name="search_input" required>
                             </div>
                         </div>
                         <!-- price input -->
                         <div class="form-group row">
                             <label for="price" class="col-md-4 col-form-label text-md-right">{{ __('Tầm giá') }}</label>
                             <div class="col-md-6">
-                                <input id="min_price" type="number" onkeypress="return event.charCode >= 48" min="0" max="10000000" class="form-control" placeholder="MIN" name="min_price">
-                                <input id="max_price" type="number" onkeypress="return event.charCode >= 48" min="0" max="10000000" class="form-control @error('max_price') is-invalid @enderror" placeholder="MAX" name="max_price">
+                                <input id="min_price" type="number" onkeypress="return event.charCode >= 48" min="0" max="99999999" class="form-control" style="color:black;" placeholder="MIN" name="min_price">
+                                <input id="max_price" type="number" onkeypress="return event.charCode >= 48" min="0" max="99999999" class="form-control @error('max_price') is-invalid @enderror" style="color:black;" placeholder="MAX" name="max_price">
                                 @error('max_price')
                                 @enderror
                             </div>
@@ -37,9 +42,9 @@
                             <div class="col-md-6">
 
                                 <select name="catalog">
-                                    <option value="" selected="selected">--Chọn loại sản phẩm--</option>
+                                    <option value="0" selected="selected">--Chọn loại sản phẩm--</option>
                                     @foreach (App\Catalog::all() as $c)
-                                    <option value="">{{$c->name }}</option>
+                                    <option value="{{$c->id}}">{{$c->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -49,9 +54,9 @@
                         <label for="brand" class="col-md-4 col-form-label text-md-right">{{ __('Hãng sản xuất') }}</label>
                             <div class="col-md-6">
                                 <select name="brand">
-                                    <option value="" selected="selected">--Chọn hãng sản xuất--</option>
+                                    <option value="0" selected="selected">--Chọn hãng sản xuất--</option>
                                     @foreach (App\Trademark::all() as $t)
-                                    <option value="">{{$t->name }}</option>
+                                    <option value="{{$t->id }}">{{$t->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
