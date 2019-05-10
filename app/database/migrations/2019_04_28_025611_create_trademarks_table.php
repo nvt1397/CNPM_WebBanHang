@@ -16,7 +16,7 @@ class CreateTrademarksTable extends Migration
         Schema::create('trademarks', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name', 180)->unique();
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }

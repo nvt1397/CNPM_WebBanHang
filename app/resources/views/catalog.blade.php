@@ -44,50 +44,22 @@
 						<li class="main-nav-list"><a href="{{route('catalog_route', ['id'=>7])}}" catalog_id="7">Sản phẩm khác</a></li>
 					</ul>
 				</div>
-				<div class="sidebar-filter mt-50">
-					<div class="top-filter-head">Bộ lọc</div>
-					<div class="common-filter">
-						<div class="head">Thương hiệu</div>
-						<form action="#">
-							<ul>
-								<li class="filter-list"><input class="pixel-radio" type="radio" id="apple" name="brand"><label for="apple">Adidas</label></li>
-								<li class="filter-list"><input class="pixel-radio" type="radio" id="asus" name="brand"><label for="asus">Nike</label></li>
-								<li class="filter-list"><input class="pixel-radio" type="radio" id="asus" name="brand"><label for="asus">Bitis</label></li>
-								<li class="filter-list"><input class="pixel-radio" type="radio" id="asus" name="brand"><label for="asus">Khác</label></li>								
-							</ul>
-						</form>
-					</div>
-					<div class="common-filter">
-						<div class="head">Giá</div>
-						<div class="price-range-area">
-							<div id="price-range"></div>
-							<div class="value-wrapper d-flex">
-								<div class="price">Giá:</div>
-								<span>$</span>
-								<div id="lower-value"></div>
-								<div class="to">tới</div>
-								<span>$</span>
-								<div id="upper-value"></div>
-							</div>
-						</div>
+				<div class="sidebar-categories">
+					<div class="head">
+						Karmashop
 					</div>
 				</div>
 			</div>
 			<div class="col-xl-9 col-lg-8 col-md-7">
 				<!-- Start Filter Bar -->
 				<div class="filter-bar d-flex flex-wrap align-items-center">
-					<div class="sorting">
-						<select>
-							<option value="1">Default sorting</option>
-							<option value="1">Default sorting</option>
-							<option value="1">Default sorting</option>
-						</select>
-					</div>
 					<div class="sorting mr-auto">
-						<select>
-							<option value="1">Show 12</option>
-							<option value="1">Show 12</option>
-							<option value="1">Show 12</option>
+						<select id="trademark_select">
+							<option value="0">Tất cả</option>
+							<option value="1">Adidas</option>
+							<option value="2">Nike</option>
+							<option value="3">Bitis</option>
+							<option value="4">Khác</option>
 						</select>
 					</div>
 					<div class="pagination">
@@ -111,38 +83,38 @@
 				<section class="lattest-product-area pb-40 category-list">
 					<div class="row">
 						@foreach ($products as $item)
-						<div class="col-lg-4 col-md-6">
-								<div class="single-product">
-									<a href="{{route('product', ['id'=>$item->id])}}">
-									<img class="img-fluid" src="{{asset($item->img_link)}}" alt="">
-									</a>
-									<div class="product-details">
-										<h6>{{$item->name}}</h6>
-										<div class="price">
-											<h6>{{number_format($item->price, 0)}} VNĐ</h6>
-										</div>
-										<div class="prd-bottom">
-	
-											<a href="" class="social-info">
-												<span class="ti-bag"></span>
-												<p class="hover-text">add to bag</p>
-											</a>
-											<a href="" class="social-info">
-												<span class="lnr lnr-heart"></span>
-												<p class="hover-text">Wishlist</p>
-											</a>
-											<a href="" class="social-info">
-												<span class="lnr lnr-sync"></span>
-												<p class="hover-text">compare</p>
-											</a>
-											<a href="" class="social-info">
-												<span class="lnr lnr-move"></span>
-												<p class="hover-text">view more</p>
-											</a>
-										</div>
+						<div class="col-lg-4 col-md-6" trademark_id="{{$item->trademark_id}}">
+							<div class="single-product">
+								<a href="{{route('product', ['id'=>$item->id])}}">
+								<img class="img-fluid" src="{{asset($item->img_link)}}" alt="">
+								</a>
+								<div class="product-details">
+									<h6>{{$item->name}}</h6>
+									<div class="price">
+										<h6>{{number_format($item->price, 0)}} VNĐ</h6>
+									</div>
+									<div class="prd-bottom">
+
+										<a href="" class="social-info">
+											<span class="ti-bag"></span>
+											<p class="hover-text">add to bag</p>
+										</a>
+										<a href="" class="social-info">
+											<span class="lnr lnr-heart"></span>
+											<p class="hover-text">Wishlist</p>
+										</a>
+										<a href="" class="social-info">
+											<span class="lnr lnr-sync"></span>
+											<p class="hover-text">compare</p>
+										</a>
+										<a href="" class="social-info">
+											<span class="lnr lnr-move"></span>
+											<p class="hover-text">view more</p>
+										</a>
 									</div>
 								</div>
 							</div>
+						</div>
 						@endforeach
 					</div>
 				</section>
@@ -189,5 +161,25 @@
 		@elseif ($id == 3 || $id == 4)
 			$("a[catalog_id='3&4']").css('color', 'orange');
 		@endif
+		$('#trademark_select').change(function() {
+			let value = $(this).val();
+			if (value != 0) {
+				$(`div[trademark_id]`).hide();
+				$(`div[trademark_id='${value}']`).show();
+			} else {
+				$(`div[trademark_id]`).show();
+			}
+			sessionStorage.trademark_filter = value;
+		});
+		if (sessionStorage.getItem("trademark_filter") !== null) {
+			$(`#trademark_select`).val(sessionStorage.getItem("trademark_filter"));
+			let value = $(`#trademark_select`).val();
+			if (value != 0) {
+				$(`div[trademark_id]`).hide();
+				$(`div[trademark_id='${value}']`).show();
+			} else {
+				$(`div[trademark_id]`).show();
+			}
+		}
 	</script>
 @endsection
