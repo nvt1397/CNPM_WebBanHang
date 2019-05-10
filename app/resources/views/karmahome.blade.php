@@ -91,7 +91,7 @@
 							<div class="single-deal">
 								<div class="overlay"></div>
 								<img class="img-fluid w-100" src="img/category/thethaonam.jpg" alt="">
-								<a href="img/category/c1.jpg" class="img-pop-up" target="_blank">
+								<a href="{{route('catalog_route', ['id' => 1])}}">
 									<div class="deal-details">
 										<h6 class="deal-title">Giày thể thao nam</h6>
 									</div>
@@ -102,7 +102,7 @@
 							<div class="single-deal">
 								<div class="overlay"></div>
 								<img class="img-fluid w-100" src="img/category/thethaonu.jpg" alt="">
-								<a href="img/category/c2.jpg" class="img-pop-up" target="_blank">
+								<a href="{{route('catalog_route', ['id' => 2])}}">
 									<div class="deal-details">
 										<h6 class="deal-title">Giày thể thao nữ</h6>
 									</div>
@@ -113,7 +113,7 @@
 							<div class="single-deal">
 								<div class="overlay"></div>
 								<img class="img-fluid w-100" src="img/category/betnu.jpg" alt="">
-								<a href="img/category/c3.jpg" class="img-pop-up" target="_blank">
+								<a href="{{route('catalog_route', ['id' => 4])}}">
 									<div class="deal-details">
 										<h6 class="deal-title">Giày bệt nữ</h6>
 									</div>
@@ -124,7 +124,7 @@
 							<div class="single-deal">
 								<div class="overlay"></div>
 								<img class="img-fluid w-100" src="img/category/betnam.jpg" alt="">
-								<a href="img/category/c4.jpg" class="img-pop-up" target="_blank">
+								<a href="{{route('catalog_route', ['id' => 3])}}">
 									<div class="deal-details">
 										<h6 class="deal-title">Giày bệt nam</h6>
 									</div>
@@ -135,7 +135,7 @@
 							<div class="single-deal">
 								<div class="overlay"></div>
 								<img class="img-fluid w-100" src="img/category/depquaihau.jpeg" alt="">
-								<a href="img/category/c4.jpg" class="img-pop-up" target="_blank">
+								<a href="{{route('catalog_route', ['id' => 5])}}">
 									<div class="deal-details">
 										<h6 class="deal-title">Dép quai hậu</h6>
 									</div>
@@ -146,7 +146,7 @@
 							<div class="single-deal">
 								<div class="overlay"></div>
 								<img class="img-fluid w-100" src="img/category/treem.jpg" alt="">
-								<a href="img/category/c4.jpg" class="img-pop-up" target="_blank">
+								<a href="{{route('catalog_route', ['id' => 6])}}">
 									<div class="deal-details">
 										<h6 class="deal-title">Giày dép trẻ em</h6>
 									</div>
